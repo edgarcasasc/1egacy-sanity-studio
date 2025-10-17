@@ -6,78 +6,82 @@ export const postType = defineType({
   title: 'Post',
   type: 'document',
   fields: [
-    defineField({
+    defineField({ // title
       name: 'title',
       title: 'Título',
       type: 'string',
       validation: (rule) => rule.required(),
-    }),
-    defineField({
+    }), // <<-- COMA
+    defineField({ // subtitle
       name: 'subtitle',
       title: 'Subtítulo',
       type: 'string',
-    }),
-    defineField({
+    }), // <<-- COMA
+    defineField({ // slug
       name: 'slug',
       title: 'URL (Slug)',
       type: 'slug',
       options: {source: 'title'},
       validation: (rule) => rule.required(),
-    }),
-    defineField({
+    }), // <<-- COMA
+    defineField({ // publishedAt
       name: 'publishedAt',
       title: 'Fecha de Publicación',
       type: 'datetime',
       initialValue: () => new Date().toISOString(),
       validation: (rule) => rule.required(),
-    }),
-    defineField({
+    }), // <<-- COMA
+    defineField({ // mainImage
       name: 'mainImage',
       title: 'Imagen Principal',
       type: 'image',
       options: {
-        hotspot: true, // Permite recortar la imagen de forma inteligente
+        hotspot: true,
       },
-    }),
-    // ... (dentro del array 'fields' en postType.ts)
-    defineField({
+    }), // <<-- COMA
+    defineField({ // body
       name: 'body',
       title: 'Contenido del Artículo',
       type: 'array',
       of: [ {type: 'block'}, {type: 'image'} ],
-    }),
+    }), // <<-- COMA // ¡Esta coma era probablemente la que faltaba antes de SEO!
 
-    // --- AÑADE ESTE NUEVO CAMPO ---
-defineField({
-  name: 'apellidosRelacionados',
-  title: 'Linajes Relacionados',
-  description: 'Si este artículo es sobre linajes específicos, añádelos aquí.',
-  type: 'array',
-  of: [
-    {
-      type: 'reference',
-      to: [{type: 'linaje'}], // <--- AQUI ESTÁ LA MAGIA
-    },
-  ],
-})
-   
+    defineField({ // apellidosRelacionados
+      name: 'apellidosRelacionados',
+      title: 'Linajes Relacionados',
+      description: 'Si este artículo es sobre linajes específicos, añádelos aquí.',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'linaje'}],
+        },
+      ],
+    }), // <<-- COMA // ¡Esta coma era probablemente la que faltaba antes de SEO!
 
-    // --- AÑADE ESTOS NUEVOS CAMPOS DE SEO ---
-    defineField({
+    // --- CAMPOS DE SEO ---
+    defineField({ // seoTitle
       name: 'seoTitle',
       title: 'Título SEO',
-      description: 'Este es el título que aparecerá en Google. Si se deja vacío, usará el título principal.',
+      description: 'Este es el título que aparecerá en Google...',
       type: 'string',
-    }),
-    defineField({
+    }), // <<-- COMA // ¡Esta coma era probablemente la que faltaba!
+    defineField({ // seoDescription
       name: 'seoDescription',
       title: 'Descripción SEO (Meta Description)',
-      description: 'Una descripción corta (máx. 160 caracteres) para las vistas previas de Google.',
+      description: 'Una descripción corta (máx. 160 caracteres)...',
       type: 'text',
       rows: 3,
       validation: (rule) => rule.max(160),
-    }),
-    // --- FIN DEL NUEVO CAMPO ---
-// ...
-  ],
+    }), // <<-- COMA // ¡Esta coma era probablemente la que faltaba antes de Author!
+
+    // --- CAMPO DE AUTOR ---
+    defineField({ // author
+      name: 'author',
+      title: 'Autor',
+      type: 'reference',
+      to: [{type: 'author'}],
+      validation: (rule) => rule.required(),
+    }) // <<-- SIN COMA (es el último)
+  ], // <<-- Aquí es donde esbuild esperaba el ']'
 })
