@@ -75,6 +75,44 @@ export const postType = defineType({
       validation: (rule) => rule.max(160),
     }), // <<-- COMA // ¡Esta coma era probablemente la que faltaba antes de Author!
 
+
+    // --- AÑADE ESTE NUEVO CAMPO PARA FAQs ---
+    defineField({
+      name: 'faqSection',
+      title: 'Sección de Preguntas Frecuentes (FAQ)',
+      description: 'Añade preguntas y respuestas comunes relacionadas con este artículo. Ideal para SEO y Vistas Generales de IA.',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          name: 'qaPair',
+          title: 'Par Pregunta/Respuesta',
+          fields: [
+            defineField({
+              name: 'question',
+              title: 'Pregunta',
+              type: 'string',
+              validation: (rule) => rule.required(),
+            }),
+            defineField({
+              name: 'answer',
+              title: 'Respuesta',
+              type: 'text', // Usamos 'text' para respuestas más largas
+              rows: 4,
+              validation: (rule) => rule.required(),
+            }),
+          ],
+          preview: { // Para que se vea bien en el Studio
+            select: {
+              title: 'question',
+              subtitle: 'answer',
+            },
+          },
+        },
+      ],
+    }),
+
+    
     // --- CAMPO DE AUTOR ---
     defineField({ // author
       name: 'author',
