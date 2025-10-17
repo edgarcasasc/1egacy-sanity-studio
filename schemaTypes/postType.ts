@@ -48,15 +48,34 @@ export const postType = defineType({
     }),
 
     // --- AÑADE ESTE NUEVO CAMPO ---
+defineField({
+  name: 'apellidosRelacionados',
+  title: 'Linajes Relacionados',
+  description: 'Si este artículo es sobre linajes específicos, añádelos aquí.',
+  type: 'array',
+  of: [
+    {
+      type: 'reference',
+      to: [{type: 'linaje'}], // <--- AQUI ESTÁ LA MAGIA
+    },
+  ],
+})
+   
+
+    // --- AÑADE ESTOS NUEVOS CAMPOS DE SEO ---
     defineField({
-      name: 'apellidosRelacionados',
-      title: 'Apellidos Relacionados (Etiquetas)',
-      description: 'Si este artículo es sobre apellidos específicos, añádelos aquí. Si es genérico, déjalo vacío.',
-      type: 'array',
-      of: [{type: 'string'}],
-      options: {
-        layout: 'tags'
-      }
+      name: 'seoTitle',
+      title: 'Título SEO',
+      description: 'Este es el título que aparecerá en Google. Si se deja vacío, usará el título principal.',
+      type: 'string',
+    }),
+    defineField({
+      name: 'seoDescription',
+      title: 'Descripción SEO (Meta Description)',
+      description: 'Una descripción corta (máx. 160 caracteres) para las vistas previas de Google.',
+      type: 'text',
+      rows: 3,
+      validation: (rule) => rule.max(160),
     }),
     // --- FIN DEL NUEVO CAMPO ---
 // ...

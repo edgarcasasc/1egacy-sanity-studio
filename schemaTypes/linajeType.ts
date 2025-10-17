@@ -3,12 +3,12 @@ import {defineField, defineType} from 'sanity'
 
 export const linajeType = defineType({
   name: 'linaje',
-  title: 'Linaje',
+  title: 'Linaje (Apellido)',
   type: 'document',
   fields: [
     defineField({
       name: 'title',
-      title: 'Apellido (Ej: Garza)',
+      title: 'Nombre del Apellido',
       type: 'string',
       validation: (rule) => rule.required(),
     }),
@@ -21,10 +21,14 @@ export const linajeType = defineType({
     }),
     defineField({
       name: 'escudo',
-      title: 'Escudo de Armas (SVG)',
-      type: 'image', // Sanity maneja SVGs perfectamente en el campo de imagen
+      title: 'Imagen del Escudo',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
       validation: (rule) => rule.required(),
     }),
+    
     defineField({
       name: 'descripcionEscudo',
       title: 'Descripción del Escudo',
@@ -44,5 +48,11 @@ export const linajeType = defineType({
       // Esto nos permite enlazar directamente a los posts que ya existen en tu blog
       of: [{type: 'reference', to: [{type: 'post'}]}],
     }),
-  ],
+],
+  preview: {
+    select: {
+      title: 'title',
+      media: 'escudo',
+    },
+  },
 })
