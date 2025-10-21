@@ -73,7 +73,15 @@ export const postType = defineType({
       type: 'text',
       rows: 3,
       validation: (rule) => rule.max(160),
-    }), // <<-- COMA // ¡Esta coma era probablemente la que faltaba antes de Author!
+    }), 
+    defineField({
+      name: 'topic',
+      title: 'Clúster Temático Principal',
+      type: 'reference',
+      to: [{type: 'topic'}], // ¡IMPORTANTE! Referencia al nuevo schema 'topic'
+      description: 'Asigna este artículo a un Clúster Temático (Pilar de Contenido). Obligatorio para la Autoridad Tópica.',
+      validation: (rule) => rule.required(),
+      }),// <<-- COMA // ¡Esta coma era probablemente la que faltaba antes de Author!
 
 
     // --- AÑADE ESTE NUEVO CAMPO PARA FAQs ---
