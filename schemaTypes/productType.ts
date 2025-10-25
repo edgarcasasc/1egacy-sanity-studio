@@ -26,6 +26,14 @@ export const productType = defineType({
       to: [{type: 'linaje'}],
     }),
     defineField({
+          name: 'category', // Nombre técnico del campo
+          title: 'Categoría', // Nombre visible en el Studio
+          type: 'reference', // Indica que es una referencia a otro documento
+          to: [{type: 'category'}], // Especifica que apunta a documentos de tipo 'category'
+          validation: (rule) => rule.required(), // Opcional: si quieres que sea obligatorio
+          description: 'Selecciona la categoría principal del producto.',
+        }),
+    defineField({
       name: 'price',
       title: 'Precio (MXN)',
       type: 'number',

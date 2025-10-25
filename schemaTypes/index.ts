@@ -5,6 +5,7 @@ import {productType} from './productType'
 import {variantType} from './variantType'
 import {authorType} from './authorType';
 import {topicType} from './topicType';
+import {categoryType} from './categoryType' // <-- ASEGÚRATE QUE ESTA LÍNEA EXISTA
  // <-- 1. Importa la nueva plantilla
 
 export const schemaTypes = [
@@ -14,4 +15,5 @@ export const schemaTypes = [
   variantType,
   authorType, // <-- 2. Añádela a la lista
   topicType,
+  categoryType, // <-- Y ASEGÚRATE QUE ESTÉ AÑADIDO AQUÍ EN EL ARRAY
 ]
