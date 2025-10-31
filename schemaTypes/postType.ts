@@ -1,5 +1,5 @@
 // studio-1egacy-blog/schemaTypes/postType.ts
-import {defineField, defineType} from 'sanity'
+import {defineField, defineType, defineArrayMember} from 'sanity' // <-- Asegúrate de importar defineArrayMember
 
 export const postType = defineType({
   name: 'post',
@@ -11,26 +11,27 @@ export const postType = defineType({
       title: 'Título',
       type: 'string',
       validation: (rule) => rule.required(),
-    }), // <<-- COMA
+    }),
     defineField({ // subtitle
       name: 'subtitle',
       title: 'Subtítulo',
       type: 'string',
-    }), // <<-- COMA
+    }),
     defineField({ // slug
       name: 'slug',
       title: 'URL (Slug)',
       type: 'slug',
       options: {source: 'title'},
       validation: (rule) => rule.required(),
-    }), // <<-- COMA
+    }),
     defineField({ // publishedAt
       name: 'publishedAt',
       title: 'Fecha de Publicación',
       type: 'datetime',
       initialValue: () => new Date().toISOString(),
       validation: (rule) => rule.required(),
-    }), // <<-- COMA
+    }),
+
     defineField({ // mainImage
       name: 'mainImage',
       title: 'Imagen Principal',
@@ -38,13 +39,41 @@ export const postType = defineType({
       options: {
         hotspot: true,
       },
-    }), // <<-- COMA
+      fields: [
+        defineField({
+          name: 'alt',
+          type: 'string',
+          title: 'Texto Alternativo (Alt Text)',
+          description: 'Describe la imagen para SEO y accesibilidad (importante).',
+          isHighlighted: true,
+          validation: Rule => Rule.warning('El texto alternativo es muy recomendable.')
+        })
+      ]
+    }),
+
     defineField({ // body
       name: 'body',
       title: 'Contenido del Artículo',
       type: 'array',
-      of: [ {type: 'block'}, {type: 'image'} ],
-    }), // <<-- COMA // ¡Esta coma era probablemente la que faltaba antes de SEO!
+      of: [
+        defineArrayMember({type: 'block'}),
+        defineArrayMember({
+          type: 'image',
+          options: {hotspot: true},
+          fields: [
+            defineField({
+              name: 'alt',
+              type: 'string',
+              title: 'Texto Alternativo (Alt Text)',
+              description: 'Describe la imagen para SEO y accesibilidad.',
+              isHighlighted: true,
+              validation: Rule => Rule.warning('El texto alternativo es muy recomendable.')
+            }),
+            // defineField({ name: 'caption', type: 'string', title: 'Leyenda' })
+          ]
+        })
+      ],
+    }),
 
     defineField({ // apellidosRelacionados
       name: 'apellidosRelacionados',
@@ -57,7 +86,7 @@ export const postType = defineType({
           to: [{type: 'linaje'}],
         },
       ],
-    }), // <<-- COMA // ¡Esta coma era probablemente la que faltaba antes de SEO!
+    }),
 
     // --- CAMPOS DE SEO ---
     defineField({ // seoTitle
@@ -65,7 +94,7 @@ export const postType = defineType({
       title: 'Título SEO',
       description: 'Este es el título que aparecerá en Google...',
       type: 'string',
-    }), // <<-- COMA // ¡Esta coma era probablemente la que faltaba!
+    }),
     defineField({ // seoDescription
       name: 'seoDescription',
       title: 'Descripción SEO (Meta Description)',
@@ -73,18 +102,17 @@ export const postType = defineType({
       type: 'text',
       rows: 3,
       validation: (rule) => rule.max(160),
-    }), 
-    defineField({
+    }),
+    defineField({ // topic
       name: 'topic',
       title: 'Clúster Temático Principal',
       type: 'reference',
-      to: [{type: 'topic'}], // ¡IMPORTANTE! Referencia al nuevo schema 'topic'
+      to: [{type: 'topic'}],
       description: 'Asigna este artículo a un Clúster Temático (Pilar de Contenido). Obligatorio para la Autoridad Tópica.',
       validation: (rule) => rule.required(),
-      }),// <<-- COMA // ¡Esta coma era probablemente la que faltaba antes de Author!
+    }),
 
-
-    // --- AÑADE ESTE NUEVO CAMPO PARA FAQs ---
+    // --- CAMPO PARA FAQs ---
     defineField({
       name: 'faqSection',
       title: 'Sección de Preguntas Frecuentes (FAQ)',
@@ -105,22 +133,24 @@ export const postType = defineType({
             defineField({
               name: 'answer',
               title: 'Respuesta',
-              type: 'text', // Usamos 'text' para respuestas más largas
-              rows: 4,
+              // --- CAMBIO AQUÍ: Volvemos a 'text' para evitar el editor enriquecido ---
+              type: 'text', // <<-- CAMBIO AQUÍ
+              rows: 4, // Mantenemos las filas para un área de texto cómoda
+              // --- FIN DEL CAMBIO ---
               validation: (rule) => rule.required(),
             }),
           ],
-          preview: { // Para que se vea bien en el Studio
+          preview: {
             select: {
               title: 'question',
-              subtitle: 'answer',
+              subtitle: 'answer', // La previsualización de 'text' sí funciona
             },
           },
         },
       ],
     }),
 
-    
+
     // --- CAMPO DE AUTOR ---
     defineField({ // author
       name: 'author',
@@ -128,6 +158,6 @@ export const postType = defineType({
       type: 'reference',
       to: [{type: 'author'}],
       validation: (rule) => rule.required(),
-    }) // <<-- SIN COMA (es el último)
-  ], // <<-- Aquí es donde esbuild esperaba el ']'
+    })
+  ],
 })

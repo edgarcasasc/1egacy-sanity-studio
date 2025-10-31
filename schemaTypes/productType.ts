@@ -39,6 +39,35 @@ export const productType = defineType({
       type: 'number',
     }),
     defineField({
+      name: 'rating',
+      title: 'Valoración (Rating)',
+      type: 'number',
+      description: 'El rating promedio (ej. 4.5)',
+      validation: Rule => Rule.min(1).max(5),
+    }),
+    defineField({
+      name: 'reviewCount',
+      title: 'Número de Reseñas',
+      type: 'number',
+      description: 'Total de reseñas recibidas',
+      validation: Rule => Rule.integer().min(0),
+    }),
+    defineField({
+      name: 'priceCurrency',
+      title: 'Moneda del Precio',
+      type: 'string',
+      description: "Código de moneda (ej. 'MXN' o 'USD')",
+      initialValue: 'MXN',
+    }),
+    defineField({
+      name: 'priceValidUntil',
+      title: 'Validez del Precio (Oferta) Hasta',
+      type: 'date',
+      options: {
+        dateFormat: 'YYYY-MM-DD',
+      },
+    }),
+    defineField({
       name: 'description',
       title: 'Descripción Corta',
       type: 'text',
