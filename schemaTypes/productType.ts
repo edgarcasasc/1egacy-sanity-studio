@@ -67,6 +67,90 @@ export const productType = defineType({
         dateFormat: 'YYYY-MM-DD',
       },
     }),
+
+
+    // --- CAMPO AÑADIDO PARA GOOGLE ---
+    defineField({
+      name: 'shippingDetails',
+      title: 'Detalles de Envío (Google)',
+      type: 'object',
+      description: 'Configuración de envío para Google Merchant Center.',
+      fields: [
+        defineField({
+          name: 'shippingRate',
+          title: 'Tarifa de Envío',
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'value',
+              title: 'Costo de envío (ej: 150)',
+              type: 'number',
+            }),
+            defineField({
+              name: 'currency',
+              title: 'Moneda (ej: MXN)',
+              type: 'string',
+              initialValue: 'MXN',
+            }),
+          ],
+        }),
+      ],
+    }),
+
+    // --- CAMPO AÑADIDO PARA GOOGLE ---
+    defineField({
+      name: 'hasMerchantReturnPolicy',
+      title: 'Política de Devolución (Google)',
+      type: 'object',
+      description: 'Configuración de devoluciones para Google Merchant Center.',
+      fields: [
+        defineField({
+          name: 'merchantReturnDays',
+          title: 'Días para Devolución (ej: 30)',
+          type: 'number',
+          validation: (rule) => rule.integer().min(0),
+        }),
+        defineField({
+          name: 'refundType',
+          title: 'Tipo de Reembolso',
+          type: 'string',
+          options: {
+            list: [
+              {title: 'Reembolso Completo', value: 'FullRefund'},
+              {title: 'Crédito de Tienda', value: 'StoreCredit'},
+              {title: 'Reembolso Parcial', value: 'PartialRefund'},
+            ],
+          },
+          initialValue: 'FullRefund',
+        }),
+        defineField({
+          name: 'returnPolicyCategory',
+          title: 'Categoría de la Política',
+          type: 'string',
+          options: {
+            list: [
+              {
+                title: 'Devolución por conveniencia',
+                value: 'https://schema.org/MerchantReturnConvenience',
+              },
+              {
+                title: 'Producto defectuoso',
+                value: 'https://schema.org/MerchantReturnDefectiveProduct',
+              },
+            ],
+          },
+          initialValue: 'https://schema.org/MerchantReturnConvenience',
+        }),
+        defineField({
+            name: 'returnPolicyUrl',
+            title: 'URL de la Política de Devolución (Opcional)',
+            type: 'url',
+            description: 'Link a tu página de políticas de devolución si tienes una.'
+        })
+      ],
+    }),
+
+    // --- CAMPOS EXISTENTES ---
     defineField({
       name: 'description',
       title: 'Descripción Corta',
