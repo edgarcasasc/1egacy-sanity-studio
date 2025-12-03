@@ -5,9 +5,10 @@ import {productType} from './productType'
 import {variantType} from './variantType'
 import {authorType} from './authorType';
 import {topicType} from './topicType';
-import {categoryType} from './categoryType' // <-- ASEGÚRATE QUE ESTA LÍNEA EXISTA
- // <-- 1. Importa la nueva plantilla
+import {categoryType} from './categoryType' 
 import {legacyPage} from './legacyPage'
+// 1. IMPORTARLO
+import order from './order'
 
 export const schemaTypes = [
   postType,
@@ -18,4 +19,6 @@ export const schemaTypes = [
   topicType,
   categoryType,
   legacyPage,
+  // 2. AGREGARLO A LA LISTA
+  order
 ]
