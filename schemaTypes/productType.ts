@@ -38,6 +38,62 @@ export const productType = defineType({
       title: 'Precio (MXN)',
       type: 'number',
     }),
+
+
+
+// ============================================================
+    // 🧠 CEREBRO DE LA LOGÍSTICA Y EXPERIENCIA (NUEVOS CAMPOS)
+    // ============================================================
+    defineField({
+      name: 'productType', // OJO: Esto controla el Checkout
+      title: 'Logística de Envío',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Digital (Solo Descarga - Sin Envío)', value: 'digital' },
+          { title: 'Físico (Requiere Dirección)', value: 'physical' },
+          { title: 'Híbrido (Envío + Descarga)', value: 'hybrid' }
+        ],
+        layout: 'radio'
+      },
+      initialValue: 'physical',
+      validation: (rule) => rule.required()
+    }),
+    defineField({
+      name: 'serviceLevel', // OJO: Esto controla la Bóveda
+      title: 'Nivel de Servicio',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Estándar (Apellido General)', value: 'standard' },
+          { title: 'Bespoke (Requiere Investigación/Ceremonia)', value: 'bespoke' }
+        ],
+        layout: 'radio'
+      },
+      initialValue: 'standard',
+      description: 'Si es Bespoke, activará el formulario de "Ceremonia" en la Bóveda post-compra.'
+    }),
+
+      defineField(// En tu esquema de 'productVariant' o dentro del array de variantes del producto
+{
+  name: 'availabilityStatus',
+  title: 'Estado de Disponibilidad',
+  type: 'string',
+  options: {
+    list: [
+      { title: 'Disponible', value: 'available' },
+      { title: 'Agotado', value: 'sold_out' },
+      { title: 'Próximamente (Visible pero bloqueado)', value: 'coming_soon' }, // <--- LA CLAVE
+      { title: 'Oculto', value: 'hidden' }
+    ],
+    layout: 'radio'
+  },
+  initialValue: 'available'
+}),
+    // ============================================================
+
+    // --- METADATOS Y SEO (Tus campos existentes) ---
+
     defineField({
       name: 'rating',
       title: 'Valoración (Rating)',
@@ -68,7 +124,7 @@ export const productType = defineType({
       },
     }),
 
-    // --- CAMPO DE ENVÍO (CORREGIDO PARA VALIDATOR) ---
+// --- GOOGLE MERCHANT CENTER (Tus campos complejos, intactos) --- 
     defineField({
       name: 'shippingDetails',
       title: 'Reglas de Envío (Google)',
@@ -206,12 +262,18 @@ export const productType = defineType({
       ],
     }),
 
-    // --- CAMPOS EXISTENTES ---
-    defineField({
+// --- CONTENIDO VISUAL Y VARIANTES ---
+defineField({
       name: 'description',
       title: 'Descripción Corta',
       type: 'text',
       rows: 3,
+    }),
+    defineField({
+      name: 'mainImage',
+      title: 'Imagen Principal',
+      type: 'image',
+      options: { hotspot: true }
     }),
     defineField({
       name: 'gallery',
