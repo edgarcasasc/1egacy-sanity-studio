@@ -142,6 +142,8 @@ export default defineType({
         { name: 'country', title: 'País', type: 'string' }
       ]
     }),
+
+   
 // ... (después de shippingAddress) ...
 
     // --- VINCULACIÓN DE LINAJE (Este es el que te falta) ---
@@ -168,7 +170,28 @@ export default defineType({
         layout: 'radio'
       },
       initialValue: 'pending'
+    }),
+
+     defineField({
+      name: 'chatHistory',
+      title: '💬 Historial del Chat (Bóveda)',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'role', title: 'Rol', type: 'string' }, // 'user' o 'ai'
+            { name: 'text', title: 'Mensaje', type: 'text' },
+            { name: 'timestamp', title: 'Hora', type: 'datetime' }
+          ],
+          preview: {
+            select: { title: 'text', subtitle: 'role' }
+          }
+        }
+      ]
     })
+
+    
   ],
 
   // Vista de lista general
