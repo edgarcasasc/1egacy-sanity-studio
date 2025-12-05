@@ -4,7 +4,7 @@ export const linajeType = defineType({
   name: 'linaje',
   title: '🛡️ Linaje (Apellido)',
   type: 'document',
-  icon: () => '🛡️',
+  // icon: () => '🛡️', // Comentamos esto para evitar errores de TS si no tienes iconos configurados
   fields: [
     // --- IDENTIDAD ---
     defineField({
@@ -62,7 +62,7 @@ export const linajeType = defineType({
       of: [{type: 'block'}]
     }),
 
-    // --- METADATOS (CAMBIO AQUI) ---
+    // --- METADATOS ---
     defineField({
       name: 'regiones',
       title: 'Regiones Comunes',
@@ -70,8 +70,50 @@ export const linajeType = defineType({
       type: 'array',
       of: [{type: 'string'}],
       options: {
-        layout: 'tags' // Permite escribir libremente
+        layout: 'tags'
       }
+    }),
+
+    // --- LÍNEA DE TIEMPO (HITOS) ---
+    defineField({
+      name: 'hitos',
+      title: '⏳ Línea de Tiempo (Hitos Históricos)',
+      description: 'Agrega los eventos clave para la línea de tiempo vertical.',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          title: 'Evento Histórico',
+          fields: [
+            defineField({ name: 'year', title: 'Año / Periodo', type: 'string' }),
+            defineField({ name: 'title', title: 'Título del Evento', type: 'string' }),
+            defineField({ name: 'description', title: 'Descripción', type: 'text', rows: 3 })
+          ],
+          preview: {
+            select: { title: 'title', subtitle: 'year' }
+          }
+        }
+      ]
+    }),
+
+    // --- DATOS PARA LA GRÁFICA ---
+    defineField({
+      name: 'estadisticas',
+      title: '📊 Estadísticas de Expansión',
+      description: 'Datos para la gráfica de barras.',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            defineField({ name: 'pais', title: 'País', type: 'string' }),
+            defineField({ name: 'cantidad', title: 'Cantidad (Aprox)', type: 'number' })
+          ],
+          preview: {
+            select: { title: 'pais', subtitle: 'cantidad' }
+          }
+        }
+      ]
     }),
 
     // --- CONEXIONES ---

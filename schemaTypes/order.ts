@@ -142,7 +142,18 @@ export default defineType({
         { name: 'country', title: 'País', type: 'string' }
       ]
     }),
+// ... (después de shippingAddress) ...
 
+    // --- VINCULACIÓN DE LINAJE (Este es el que te falta) ---
+    defineField({
+      name: 'linajeVinculado',
+      title: '🛡️ Linaje Vinculado (Base de Datos)',
+      description: 'IMPORTANTE: Selecciona aquí el apellido para que el cliente pueda ver su historia en el Códice.',
+      type: 'reference',
+      to: [{ type: 'linaje' }]
+    }),
+
+    // ... (antes de stripeCheckoutId) ...
     // --- ESTATUS INVESTIGACIÓN (BESPOKE) ---
     defineField({
       name: 'investigationStatus',
