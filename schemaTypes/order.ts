@@ -189,7 +189,34 @@ export default defineType({
           }
         }
       ]
+    }),
+    // --- CONTROL DE AUTOMATIZACIÓN (Checkpoints) ---
+defineField({
+  name: 'automationFlags',
+  title: '⚙️ Control de Automatización',
+  type: 'object',
+  options: { collapsible: true, collapsed: true }, // Oculto para no molestar visualmente
+  fields: [
+    defineField({ 
+      name: 'hasToken', 
+      title: 'Token Generado', 
+      type: 'boolean', 
+      initialValue: false 
+    }),
+    defineField({ 
+      name: 'welcomeEmailSent', 
+      title: 'Correo Bienvenida Enviado', 
+      type: 'boolean', 
+      initialValue: false 
+    }),
+    defineField({ 
+      name: 'completionEmailSent', 
+      title: 'Correo Final Enviado', 
+      type: 'boolean', 
+      initialValue: false 
     })
+  ]
+})
 
     
   ],
