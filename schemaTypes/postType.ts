@@ -1,5 +1,4 @@
-// studio-1egacy-blog/schemaTypes/postType.ts
-import {defineField, defineType, defineArrayMember} from 'sanity' // <-- Asegúrate de importar defineArrayMember
+import {defineField, defineType, defineArrayMember} from 'sanity'
 
 export const postType = defineType({
   name: 'post',
@@ -56,9 +55,9 @@ export const postType = defineType({
       title: 'Contenido del Artículo',
       type: 'array',
       of: [
-        defineArrayMember({type: 'block'}),
+        defineArrayMember({type: 'block'}), // Texto normal
         defineArrayMember({
-          type: 'image',
+          type: 'image', // Imágenes dentro del texto
           options: {hotspot: true},
           fields: [
             defineField({
@@ -69,9 +68,13 @@ export const postType = defineType({
               isHighlighted: true,
               validation: Rule => Rule.warning('El texto alternativo es muy recomendable.')
             }),
-            // defineField({ name: 'caption', type: 'string', title: 'Leyenda' })
           ]
-        })
+        }),
+        // --- NUEVO: SOPORTE PARA TABLAS ---
+        defineArrayMember({
+          type: 'table',
+          title: 'Tabla de Datos',
+        }),
       ],
     }),
 
@@ -108,7 +111,7 @@ export const postType = defineType({
       title: 'Clúster Temático Principal',
       type: 'reference',
       to: [{type: 'topic'}],
-      description: 'Asigna este artículo a un Clúster Temático (Pilar de Contenido). Obligatorio para la Autoridad Tópica.',
+      description: 'Asigna este artículo a un Clúster Temático. Obligatorio para la Autoridad Tópica.',
       validation: (rule) => rule.required(),
     }),
 
@@ -116,7 +119,7 @@ export const postType = defineType({
     defineField({
       name: 'faqSection',
       title: 'Sección de Preguntas Frecuentes (FAQ)',
-      description: 'Añade preguntas y respuestas comunes relacionadas con este artículo. Ideal para SEO y Vistas Generales de IA.',
+      description: 'Añade preguntas y respuestas comunes relacionadas con este artículo.',
       type: 'array',
       of: [
         {
@@ -133,23 +136,20 @@ export const postType = defineType({
             defineField({
               name: 'answer',
               title: 'Respuesta',
-              // --- CAMBIO AQUÍ: Volvemos a 'text' para evitar el editor enriquecido ---
-              type: 'text', // <<-- CAMBIO AQUÍ
-              rows: 4, // Mantenemos las filas para un área de texto cómoda
-              // --- FIN DEL CAMBIO ---
+              type: 'text', 
+              rows: 4, 
               validation: (rule) => rule.required(),
             }),
           ],
           preview: {
             select: {
               title: 'question',
-              subtitle: 'answer', // La previsualización de 'text' sí funciona
+              subtitle: 'answer', 
             },
           },
         },
       ],
     }),
-
 
     // --- CAMPO DE AUTOR ---
     defineField({ // author
