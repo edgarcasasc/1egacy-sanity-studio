@@ -4,7 +4,7 @@ export const linajeType = defineType({
   name: 'linaje',
   title: '🛡️ Linaje (Apellido)',
   type: 'document',
-  // icon: () => '🛡️', // Comentamos esto para evitar errores de TS si no tienes iconos configurados
+  // icon: () => '🛡️', 
   fields: [
     // --- IDENTIDAD ---
     defineField({
@@ -111,6 +111,41 @@ export const linajeType = defineType({
           ],
           preview: {
             select: { title: 'pais', subtitle: 'cantidad' }
+          }
+        }
+      ]
+    }),
+
+    // --- SEO & FAQs (NUEVA SECCIÓN) ---
+    defineField({
+      name: 'faqs',
+      title: '❓ Preguntas Frecuentes (SEO & Usuario)',
+      description: 'Añade preguntas específicas de ESTE apellido. Importante para aparecer en Google como Rich Result.',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          title: 'Item de FAQ',
+          fields: [
+            defineField({
+              name: 'question',
+              title: 'Pregunta',
+              type: 'string',
+              validation: (rule) => rule.required()
+            }),
+            defineField({
+              name: 'answer',
+              title: 'Respuesta',
+              type: 'text', // Usamos text simple para facilitar el JSON-LD
+              rows: 3,
+              validation: (rule) => rule.required()
+            })
+          ],
+          preview: {
+            select: {
+              title: 'question',
+              subtitle: 'answer'
+            }
           }
         }
       ]
