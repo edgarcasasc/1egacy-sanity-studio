@@ -46,6 +46,69 @@ export const linajeType = defineType({
       type: 'text', 
       rows: 3,
     }),
+
+    // --- VIDEOS (YOUTUBE & SCHEMA) ---
+    defineField({
+      name: 'videos',
+      title: '🎬 Videos (YouTube)',
+      description: 'Agrega uno o varios videos. El primero será el principal para Google.',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          title: 'Video',
+          fields: [
+            defineField({
+              name: 'title',
+              title: 'Título del Video',
+              type: 'string',
+              validation: rule => rule.required()
+            }),
+            defineField({
+              name: 'description',
+              title: 'Descripción (Para SEO)',
+              type: 'text',
+              rows: 2,
+              validation: rule => rule.required()
+            }),
+            defineField({
+              name: 'youtubeUrl',
+              title: 'URL de YouTube',
+              description: 'Ejemplo: https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+              type: 'url',
+              validation: rule => rule.required()
+            }),
+            defineField({
+              name: 'thumbnail',
+              title: 'Portada del Video (Thumbnail)',
+              description: 'Obligatorio para que Google muestre el video en los resultados.',
+              type: 'image',
+              options: { hotspot: true },
+              validation: rule => rule.required()
+            }),
+            defineField({
+              name: 'uploadDate',
+              title: 'Fecha de Publicación',
+              type: 'date',
+              initialValue: () => new Date().toISOString().split('T')[0]
+            }),
+            defineField({
+                name: 'duration',
+                title: 'Duración (Formato ISO 8601)',
+                description: 'Ejemplo: 1 minuto y 30 seg = PT1M30S. (PT = Period Time, M=Min, S=Sec)',
+                type: 'string',
+                initialValue: 'PT1M30S'
+            })
+          ],
+          preview: {
+            select: {
+              title: 'title',
+              media: 'thumbnail'
+            }
+          }
+        }
+      ]
+    }),
     
     // Origen (Texto Rico)
     defineField({
