@@ -54,6 +54,7 @@ export const postType = defineType({
       name: 'body',
       title: 'Contenido del Artículo',
       type: 'array',
+      initialValue: [], // ✨ SOLUCIÓN: Inicializa como array vacío
       of: [
         defineArrayMember({type: 'block'}), // Texto normal
         defineArrayMember({
@@ -83,6 +84,7 @@ export const postType = defineType({
       title: 'Linajes Relacionados',
       description: 'Si este artículo es sobre linajes específicos, añádelos aquí.',
       type: 'array',
+      initialValue: [], // ✨ SOLUCIÓN: Previene el error de patch
       of: [
         {
           type: 'reference',
@@ -121,6 +123,7 @@ export const postType = defineType({
       title: 'Sección de Preguntas Frecuentes (FAQ)',
       description: 'Añade preguntas y respuestas comunes relacionadas con este artículo.',
       type: 'array',
+      initialValue: [], // ✨ SOLUCIÓN: Previene el error de patch
       of: [
         {
           type: 'object',
